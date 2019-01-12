@@ -1,0 +1,183 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+        <title>Food</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <meta name="viewport" content="initial-scale=1.0, 
+          width=device-width" />
+        <script src="http://js.api.here.com/v3/3.0/mapsjs-core.js" 
+          type="text/javascript" charset="utf-8"></script>
+        <script src="http://js.api.here.com/v3/3.0/mapsjs-service.js" 
+          type="text/javascript" charset="utf-8"></script>
+        <script src="http://js.api.here.com/v3/3.0/mapsjs-ui.js" 
+          type="text/javascript" charset="utf-8"></script>
+        <script type="text/javascript" charset="UTF-8"
+          src="http://js.api.here.com/v3/3.0/mapsjs-places.js"></script>
+        <link rel="stylesheet" type="text/css" 
+          href="http://js.api.here.com/v3/3.0/mapsjs-ui.css" />
+        <style>
+            .form-control 
+            {
+                display: inline;
+                width: auto;
+                height: auto;
+                margin-top: 10px;
+                padding: 6px 12px;
+                font-size: 14px;
+                line-height: 1.42857143;
+                color: #555;
+                background-color: #fff;
+                background-image: none;
+                border: 1px solid #ccc;
+                border-radius: 4px;
+                -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+                box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+                -webkit-transition: border-color ease-in-out .15s,-webkit-box-shadow ease-in-out .15s;
+                -o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+                transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+            }
+            
+            html,body
+            {
+                width: 100%;
+                height: 100%;
+                margin: 0px;
+            }
+            #map
+            {
+                float: right;
+                width: 100%;
+                height: 100%;
+            }
+            #geolocation
+            {
+                position: absolute;
+                top: 100px;
+                right: 7px;
+                width: auto;
+                height: 20px;
+                background-color: #1f262a;
+                border-radius: 22px;
+                color: #fff;
+                padding: 6px;
+                cursor:pointer;
+            }
+            #geolocation:hover
+            {
+                color:#1f262a;
+                background-color: white;
+                border:1px solid #1f262a;
+            }
+            .active
+            {
+                color:#1f262a !important;
+                background-color: white !important;
+                border:1px solid #1f262a !important; 
+            }
+           
+            .mBtn
+            {
+                margin-bottom: -10px;
+            }
+        </style>
+         <link rel="stylesheet" type="text/css" href="MainPage.css">
+        <link href="https://fonts.googleapis.com/css?family=Abhaya+Libre:700,800|Cinzel:400,900|Lora:400i" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-default navbar-fixed-top" role="navigation" style="padding-top: 0px;">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="MainPage.php" style="font-weight: 900;">Fassa7ni</a>
+                            <span class="form-inline">
+                                <span class="form-group">
+                                    <select class="form-control">
+                                        <option value="" selected disabled hidden>I'am looking for.."</option>
+                                        <option>Food</option>
+                                        <option>Coffee</option>
+                                        <option>NightLife</option>
+                                        <option>Fun</option>
+                                        <option>Shopping</option>
+                                    </select>
+                                    <input type="text" class="form-control" placeholder="Search" id="LLL">
+                                    <button type="submit" class="btn btn-default mBtn" onclick="alert(document.getElementById('LLL').value)" style="background-color: black;">Submit</button>
+                                </span>
+                            </span>
+                </div>
+            </div>
+        </nav>
+         <div id="map"/></div>
+    <div id="geolocation"></div>
+
+    <script type="text/javascript" charset="utf-8">
+            // Instantiate the Platform class with authentication and
+            // authorization credentials:
+            var platform = new H.service.Platform({
+              app_id: 'CWGHKlh0iigfJYeZI2VV',
+              app_code: 'P7EKB_u2IpYWSfFo_AW9Qw'
+            });
+
+            // Instantiate a map inside the DOM element with id map. The
+            // map center is in San Francisco, the zoom level is 10:
+            var map = new H.Map(document.getElementById('map'),
+              platform.createDefaultLayers().normal.map, {
+              center: {lat: 30.095346, lng: 31.374735},
+              zoom: 14
+              });
+            
+            // Create a group object to hold map markers:
+            var group = new H.map.Group();
+
+            // Create the default UI components:
+            var ui = H.ui.UI.createDefault(map, platform.createDefaultLayers());
+
+            // Add the group object to the map:
+            map.addObject(group);
+
+            // Obtain a Search object through which to submit search
+            // requests:
+            var search = new H.places.Search(platform.getPlacesService()),
+              searchResult, error;
+            
+                    var fff = document.getElementById('LLL').value.toString();
+                    var params = {
+                    // Plain text search for places with the word "hotel"
+                    // associated with them:
+                  'q': fff,
+                    //  Search in the Chinatown district in San Francisco:
+                  'at': '30.095346,31.374735'
+                };         
+
+            // Define a callback function to handle data on success:
+            function onResult(data) {
+              addPlacesToMap(data.results);
+            }
+
+            // Define a callback function to handle errors:
+            function onError(data) {
+              error = data;
+            }
+
+            // This function adds markers to the map, indicating each of
+            // the located places:
+            function addPlacesToMap(result) {
+              group.addObjects(result.items.map(function (place) {
+              var marker = new H.map.Marker({lat: place.position[0],
+                lng: place.position[1]})
+              return marker;
+              }));
+            }
+
+            // Run a search request with parameters, headers (empty), and
+            // callback functions:
+            search.request(params, {}, onResult, onError);
+
+          </script>
+    </body>
+</html>
