@@ -6,7 +6,7 @@
 ### When you select one of categories there is a page contains recommended  places depends on your location and their rate and you have the ### ability to see others comments on this places and rating of this place and you have the ability to interact with the website and make ### your own review and write your comment on this place
 
 
-## Tecnologies :
+## Technologies :
 ### PHP
 ### Javascript
 ### Ajax
